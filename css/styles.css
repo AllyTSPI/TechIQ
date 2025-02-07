@@ -1,0 +1,601 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+/*dictionary*/
+:root{
+    --navbar-bg: rgba(45,51,74,255);
+    --navbar-txt: white !important;
+    --border-1:  #3f455b;
+    --border-2:  #ffcb56;
+    --font-inter: "Inter", serif;
+    --form-header: #152039 !important;
+    --hover-yellow : rgb(250, 170, 20); 
+}
+
+/* Navbar styles */
+.custom-nav{
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays on top */
+    background-color: var(--navbar-bg);
+    box-shadow: 0 4px 2px -2px var(--navbar-bg);
+}
+
+.navbar{
+    font-family: var(--font-inter);
+}
+
+.custom-nav .navbar-nav .nav-link{
+    color: white !important;
+}
+  
+.custom-nav .navbar-brand{
+    color: var(--border-2) !important;
+    font-weight: bold;
+}
+
+.btn-outline-success{
+    background-color: var(--border-2);
+    color: var(--navbar-bg);
+    border-color: var(--border-2);
+}
+  
+.btn-outline-success:hover{
+    background-color:  var(--border-1);
+    border-color:  var(--border-1);
+}
+
+.form-control{
+    border-color: var(--navbar-bg);
+}
+  
+.form-control:hover{
+    border-color: var(--border-1);
+}
+  
+.form-control:focus{
+    border-color: var(--border-1);
+}
+
+.navbar-toggler i.fas.fa-bars{
+    color: var(--border-2);
+}
+
+.navbar-toggler{
+    border: none;
+}
+
+.navbar-toggler:focus{
+    outline: none;
+}
+
+.custom-nav .navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+/*end navbar*/
+
+
+/*background of the body*/
+.index {
+    background-image: url('../images/bg.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+}
+
+.index.container {
+    z-index: 2;
+    position: relative;
+}
+
+/*Empower your learning*/
+.index h2.mb-3 {
+    margin-top: 180px;
+    color: var(--border-2);
+    font-size: 50px;
+    font-family: var(--font-inter);
+    font-weight:800;
+}
+
+/*Unleash your potential*/
+.index p{
+    margin-top: 15px;
+    font-size: 30px;
+    color: white;
+    font-family: var(--font-inter);
+}
+
+/*get started button*/
+#getStartedBtn {
+    margin-top: 50px;
+    background-color: var(--border-2);
+    color: var(--border-1);
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: var(--font-inter);
+    font-weight: 600;
+}
+
+#getStartedBtn:hover {
+    background-color:var(--hover-yellow); 
+}
+
+/**/
+#formHeader{
+    background-color: var(--form-header);
+    color: white;
+    font-family: var(--font-inter);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/*login*/
+.form-margin {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-margin .card-body {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-margin .form-group {
+    margin-bottom: 5px; 
+}
+
+.form-margin .form-control {
+    padding: 12px; 
+    margin-bottom: 10px; 
+}
+
+.form-margin .alert {
+    margin-bottom: 15px; 
+}
+
+.form-margin .btn {
+    margin-top: 5px;
+    padding: 12px; 
+}
+
+/*create account*/
+
+
+  
+
+
+
+/*animated*/
+.form-group {
+    position: relative;
+    margin-top: 1.1rem;
+}
+
+.animated-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    font-size: 16px; 
+    color: #6c757d;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+
+.form-control:focus + .animated-placeholder,
+.form-control:not(:placeholder-shown) + .animated-placeholder {
+    top: -8px;
+    font-size: 12px;
+    color: #007bff; /* focus color */
+}
+
+
+/*button*/
+.btn-yellow {
+    background-color:var(--border-2); 
+    border: none;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--form-header);
+}
+
+.btn-yellow:hover {
+    background-color: var(--hover-yellow);
+    border:none;
+}
+
+
+.custom-link {
+    color: rgb(50, 103, 235) !important;
+    text-decoration: none;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;   
+}
+
+span{
+    color: var(--hover-yellow);
+}
+
+.custom-link:hover {
+    color: rgb(56, 56, 80);
+    text-decoration: none;
+}
+
+
+/*username, password field*/
+#username, #password {
+    border: 2px solid var(--form-header);
+    border-radius: 5px; 
+    padding: 10px; /* Optional: Adjust spacing */
+}
+
+/* Change border on focus */
+#username:focus, #password:focus {
+    border-color: none;
+    box-shadow: none;
+}
+
+/** for dashboard */
+
+/* Make navbar sticky */
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dashboard styling */
+  .dashboard {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+  
+/* Cover photo */
+.cover-photo {
+    width: 100%;
+    height: 220px;
+    background: url('../images/covers/rv.jpg') center/cover no-repeat;
+    position: relative;
+}
+  
+/* Profile container */
+.profile-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: start;
+    padding: 80px 20px 30px;
+    width: 100%;
+    margin: -100px auto 0; /* Adjusted for a gentle overlap */
+    background: none;
+    border-radius: none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 2;
+    min-height: 200px; /* Ensures height stability */
+}
+  
+/* Profile picture on the left */
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid var(--form-header);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+  
+/* Profile details on the right */
+/* Profile details */
+.profile-details {
+    text-align: left;
+    flex: 1;
+    min-width: 250px;
+    margin-left: 50px;
+}
+  
+.profile-details h2 {
+    margin: 5px 0;
+    font-size: 2.2rem;
+    font-family: var(--font-inter);
+    font-weight: 600;
+}
+  
+.profile-details p {
+    color: #666;
+    margin: 2px 0;
+    font-family: var(--font-inter);
+}
+  
+.bio {
+    font-style: italic;
+    font-family: var(--font-inter);
+}
+  
+/* Profile actions (Edit & Sign Out buttons) */
+.profile-actions {
+    margin-left: auto;
+}
+  
+.profile-actions .btn {
+    margin-left: 10px;
+}
+
+.profile-actions .btn-primary {
+    background-color: var(--form-header);
+    border-color: var(--form-header);
+  }
+
+.profile-actions .btn-danger {
+    background-color: #ef2850 !important;
+    border-color: #ef2850 !important;
+  }
+
+/* Ensure the cover photo stays below the profile-info */
+.cover-photo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+
+/******* progress and recents *******/
+
+/** scroll **/
+.graphs-dynamic {
+    height: 400px;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+.progress-section, .recents-section {
+    height: 100%;
+    overflow-y: auto;
+}
+/** end scroll **/
+
+
+.centered-heading {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 3rem;
+    font-family: var(--font-inter);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 2.3rem;
+    color: var(--form-header);
+}
+
+/* Ensure the progress bars are displayed vertically */
+.progress-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.progress-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 200px;
+    position: relative;
+}
+
+.vertical-bar {
+    width: 40px; /* Adjust bar width */
+    height: 150px; /* Maximum height */
+    display: flex;
+    align-items: flex-end;
+    background: var(--form-header);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: var(--hover-yellow);
+    text-align: center;
+    color: var(--form-header);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.y-tick {
+    border-top: none;
+    text-align: left;
+    padding-right: 5px;
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+}
+
+.x-tick {
+    margin-top: 5px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--form-header);
+}
+
+/* Divider between sections */
+.divider {
+    height: 100%;
+    width: 2px;
+    background-color: var(--border-2);
+}
+
+/* Remove border from list group */
+.no-border .list-group-item {
+    border: none;
+}
+
+/* Custom checkbox styling */
+.custom-checkbox {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input {
+    display: none;
+}
+
+/* Default unchecked icon */
+.custom-checkbox .unchecked {
+    font-size: 20px;
+    color: #ccc;
+}
+
+/* Checked icon */
+.custom-checkbox .checked {
+    font-size: 20px;
+    color: var(--hover-yellow);
+    display: none;
+}
+
+/* Show the checked icon when checked */
+.custom-checkbox input:checked ~ .checked {
+    display: inline-block;
+}
+
+/* Show the unchecked icon when not checked */
+.custom-checkbox input:not(:checked) ~ .unchecked {
+    display: inline-block;
+}
+/*end progress*/
+
+
+
+
+/***** ABOUT PAGE *****/
+.about h2 {
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: var(--font-inter);
+}
+
+.about p{
+    text-align: justify;
+    font-family: var(--font-inter);
+    font-size: 1.2rem;
+}
+
+.about img {
+    width: 100%; 
+    height: auto;
+}
+
+
+.about .p-3 {
+    padding: 1rem;
+    border: 3px solid var(--hover-yellow);
+    text-align: center;
+}
+
+.about .p-3 p{
+    font-weight: 600;
+    color: rgb(63, 63, 175);
+}
+
+.about img {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/***** END ABOUT PAGE *****/
+
+/***** QUIZZES *****/
+.quizzes .btn-custom {
+    background-color: var(--form-header);
+    color: #fff;
+    padding: 0.5rem 1rem; /* Reduced padding for smaller button size */
+    text-align: center;
+}
+
+.quizzes .btn-custom:hover {
+    background-color: #243c74;
+}
+
+.quizzes .custom-border {
+    border: 2px solid var(--hover-yellow);
+    padding: 1rem; /* Reduce padding inside the border */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Center content inside the border */
+}
+
+.quizzes .custom-paragraph {
+    font-size: 1rem; /* Reduce font size for the paragraph */
+    margin: 0.5rem 0; /* Add some margin to keep space around text */
+    text-align: center; /* Center the text */
+}
+
+.quizzes .p-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem; /* Adjust padding here */
+}
+
+.quizzes .p-3 .btn {
+    margin-top: 0.5rem; /* Reduce space above the button */
+}
+
+.quizzes .btn {
+    display: flex;
+    justify-content: center;
+}
+
+.quizzes .row {
+    display: flex;
+    justify-content: center; /* Center the columns horizontally */
+    gap: 20px; /* Space between columns */
+}
+
+.quizzes .row > .col-lg-4, 
+.quizzes .row > .col-md-6 {
+    max-width: 300px; /* Limit the width of each column */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.quizzes img {
+    width: 150px; /* Set the image size */
+    height: auto;
+    margin-bottom: 1rem; /* Space between image and text */
+}
+
+
+/***** END QUIZZES *****/
+
+
+
