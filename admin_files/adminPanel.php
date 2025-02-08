@@ -5,6 +5,7 @@
     require '../admin_php/addSubject.php';
     require '../admin_php/showAdmin.php';
     require '../admin_php/showUsers.php';
+    require '../admin_php/deleteUser.php';
     require '../admin_php/uploadMaterial.php';
     require '../admin_php/downloadMaterial.php';
     require '../admin_php/addQuizForm.php';
@@ -226,34 +227,39 @@
 
                 <!-- Users Content -->
                 <div class="users-content">
-                    <h4>Users</h4>
-                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                        <table class="table table-striped">
-                            <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Full Name</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">LRN</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Last Login Date</th>
-                                </tr>
-                            </thead>
-                            <tbody id="subjectTableBody">
-                                <?php foreach ($users as $user): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($user['userID']) ?></td>
-                                    <td><?= htmlspecialchars($user['fullname']) ?></td>
-                                    <td><?= htmlspecialchars($user['username']) ?></td>
-                                    <td><?= htmlspecialchars($user['depedAcct']) ?></td>
-                                    <td><?= htmlspecialchars($user['email']) ?></td>
-                                    <td><?= htmlspecialchars($user['lastLoginDate']) ?></td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <h4>Users</h4>
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-striped">
+            <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">LRN</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Last Login Date</th>
+                    <th scope="col">Actions</th> <!-- New column for actions -->
+                </tr>
+            </thead>
+            <tbody id="subjectTableBody">
+                <?php foreach ($users as $user): ?>
+                <tr>
+                    <td><?= htmlspecialchars($user['userID']) ?></td>
+                    <td><?= htmlspecialchars($user['fullname']) ?></td>
+                    <td><?= htmlspecialchars($user['username']) ?></td>
+                    <td><?= htmlspecialchars($user['depedAcct']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td><?= htmlspecialchars($user['lastLoginDate']) ?></td>
+                    <td>
+                        <a href="../admin_php/deleteUser.php?userID=<?= $user['userID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
                 <!-- List of Admins Content -->
                 <div class="list-of-admins-content">
