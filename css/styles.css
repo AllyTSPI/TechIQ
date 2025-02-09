@@ -438,53 +438,6 @@ span{
     color: var(--form-header);
 }
 
-/* Divider between sections */
-.divider {
-    height: 100%;
-    width: 2px;
-    background-color: var(--border-2);
-}
-
-/* Remove border from list group */
-.no-border .list-group-item {
-    border: none;
-}
-
-/* Custom checkbox styling */
-.custom-checkbox {
-    position: relative;
-    display: inline-block;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-/* Hide the default checkbox */
-.custom-checkbox input {
-    display: none;
-}
-
-/* Default unchecked icon */
-.custom-checkbox .unchecked {
-    font-size: 20px;
-    color: #ccc;
-}
-
-/* Checked icon */
-.custom-checkbox .checked {
-    font-size: 20px;
-    color: var(--hover-yellow);
-    display: none;
-}
-
-/* Show the checked icon when checked */
-.custom-checkbox input:checked ~ .checked {
-    display: inline-block;
-}
-
-/* Show the unchecked icon when not checked */
-.custom-checkbox input:not(:checked) ~ .unchecked {
-    display: inline-block;
-}
 /*end progress*/
 
 
