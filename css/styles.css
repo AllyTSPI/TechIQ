@@ -270,7 +270,6 @@ span{
 .cover-photo {
     width: 100%;
     height: 220px;
-    background: url('../images/covers/rv.jpg') center/cover no-repeat;
     position: relative;
 }
   

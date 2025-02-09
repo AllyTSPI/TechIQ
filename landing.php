@@ -1,69 +1,86 @@
 <?php
-session_start();
-require 'config/connection.php';
+    session_start();
+    require 'config/connection.php';
 
-if (!isset($_SESSION['username'])) {
-    header('Location: index.php');
-    exit();
-}
-
-$username = $_SESSION['username'];
-
-// Handle profile update
-if (isset($_POST['saveProfile'])) {
-    $newFullname = $_POST['fullname'];
-    $newDepedAcct = $_POST['depedAcct'];
-    $newEmail = $_POST['email'];
-    $profileImage = null;
-
-    // Check if a file was uploaded
-    if (isset($_FILES['userPhoto']) && $_FILES['userPhoto']['error'] === UPLOAD_ERR_OK) {
-        $imageTmp = file_get_contents($_FILES['userPhoto']['tmp_name']); // Convert image to binary
-        $profileImage = $imageTmp;
+    if (!isset($_SESSION['username'])) {
+        header('Location: index.php');
+        exit();
     }
 
-    // Update query with or without the image
-    if ($profileImage !== null) {
-        $updateQuery = "UPDATE users SET fullname = :fullname, depedAcct = :depedAcct, email = :email, userPhoto = :userPhoto WHERE username = :username";
+    $username = $_SESSION['username'];
+
+    // Handle profile update
+    if (isset($_POST['saveProfile'])) 
+    {
+        $newFullname = $_POST['fullname'];
+        $newDepedAcct = $_POST['depedAcct'];
+        $newEmail = $_POST['email'];
+        $profileImage = null;
+        $coverImage = null;
+
+        // Check if profile picture was uploaded
+        if (isset($_FILES['userPhoto']) && $_FILES['userPhoto']['error'] === UPLOAD_ERR_OK) {
+            $profileImage = file_get_contents($_FILES['userPhoto']['tmp_name']);
+        }
+
+        // Check if cover photo was uploaded
+        if (isset($_FILES['userCover']) && $_FILES['userCover']['error'] === UPLOAD_ERR_OK) {
+            $coverImage = file_get_contents($_FILES['userCover']['tmp_name']);
+        }
+
+        // Construct SQL query based on available inputs
+        $updateQuery = "UPDATE users SET fullname = :fullname, depedAcct = :depedAcct, email = :email";
+
+        if ($profileImage !== null) {
+            $updateQuery .= ", userPhoto = :userPhoto";
+        }
+        if ($coverImage !== null) {
+            $updateQuery .= ", userCover = :userCover";
+        }
+
+        $updateQuery .= " WHERE username = :username";
         $updateStmt = $pdo->prepare($updateQuery);
-        $updateStmt->bindParam(':userPhoto', $profileImage, PDO::PARAM_LOB);
-    } else {
-        $updateQuery = "UPDATE users SET fullname = :fullname, depedAcct = :depedAcct, email = :email WHERE username = :username";
-        $updateStmt = $pdo->prepare($updateQuery);
+
+        // Bind parameters
+        $updateStmt->bindParam(':fullname', $newFullname, PDO::PARAM_STR);
+        $updateStmt->bindParam(':depedAcct', $newDepedAcct, PDO::PARAM_STR);
+        $updateStmt->bindParam(':email', $newEmail, PDO::PARAM_STR);
+        $updateStmt->bindParam(':username', $username, PDO::PARAM_STR);
+
+        if ($profileImage !== null) {
+            $updateStmt->bindParam(':userPhoto', $profileImage, PDO::PARAM_LOB);
+        }
+        if ($coverImage !== null) {
+            $updateStmt->bindParam(':userCover', $coverImage, PDO::PARAM_LOB);
+        }
+
+        if ($updateStmt->execute()) {
+            echo "";
+        } else {
+            echo "Error updating profile.";
+        }
     }
 
-    $updateStmt->bindParam(':fullname', $newFullname, PDO::PARAM_STR);
-    $updateStmt->bindParam(':depedAcct', $newDepedAcct, PDO::PARAM_STR);
-    $updateStmt->bindParam(':email', $newEmail, PDO::PARAM_STR);
-    $updateStmt->bindParam(':username', $username, PDO::PARAM_STR);
+    // Fetch user details including cover photo
+    $query = "SELECT fullname, username, depedAcct, email, userPhoto, userCover FROM users WHERE username = :username";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($updateStmt->execute()) {
-        echo "";
-    } else {
-        echo "Error updating profile.";
+    if (!$user) {
+      echo "User not found.";
+      exit();
     }
-}
 
-// Fetch the user's details including profile picture
-$query = "SELECT fullname, username, depedAcct, email, userPhoto FROM users WHERE username = :username";
-$stmt = $pdo->prepare($query);
-$stmt->bindParam(':username', $username, PDO::PARAM_STR);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Assign user details
+    $fullname = $user['fullname'];
+    $username = $user['username'];
+    $depedAcct = $user['depedAcct'];
+    $email = $user['email'];
 
-if (!$user) {
-    echo "User not found.";
-    exit();
-}
-
-// Assign user details
-$fullname = $user['fullname'];
-$username = $user['username'];
-$depedAcct = $user['depedAcct'];
-$email = $user['email'];
-
-// Convert BLOB image to base64
-$profilePic = !empty($user['userPhoto']) ? 'data:image/jpeg;base64,' . base64_encode($user['userPhoto']) : 'images/profiles/default.png';
+    $profilePic = !empty($user['userPhoto']) ? 'data:image/jpeg;base64,' . base64_encode($user['userPhoto']) : 'images/profiles/default.png';
+    $coverPhoto = !empty($user['userCover']) ? 'data:image/jpeg;base64,' . base64_encode($user['userCover']) : 'images/covers/cover.jpg';
 ?>
 
 
@@ -107,31 +124,25 @@ $profilePic = !empty($user['userPhoto']) ? 'data:image/jpeg;base64,' . base64_en
 
     <!-- Dashboard Section -->
     <section class="dashboard">
-
         <!-- Profile -->
-        <div class="cover-photo"></div>
-            <div class="profile-info">
-            <div class="profile-pic" style="background: url('<?php echo $profilePic; ?>') center/cover no-repeat;"></div>
-                    
-                    <!--- PHP INPUTS --->
-                    <div class="profile-details">
-                        <h2><?php echo htmlspecialchars($fullname); ?></h2>
-                        <p><b>Username :</b> <?php echo htmlspecialchars($username); ?> | <b>LRN :</b> <?php echo htmlspecialchars($depedAcct); ?></p>
-                        <p><b>Email :</b> <?php echo htmlspecialchars($email); ?></p>
-                        <p class="bio">Web developer | Tech enthusiast | Lifelong learner</p>
-                    </div>
-
-                    <div class="profile-actions">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
-  Edit Profile
-</button>
-                      <button class="btn btn-danger" onclick="window.location.href='index.php'">Sign Out</button>
-                    </div>
-                </div>
+        <div class="cover-photo" style="background: url('<?php echo $coverPhoto; ?>') center/cover no-repeat;"></div>
+        <div class="profile-info">
+            <div class="profile-pic" style="background: url('<?php echo $profilePic; ?>') center/cover no-repeat;"></div>                    
+            <!--- PHP INPUTS --->
+            <div class="profile-details">
+              <h2><?php echo htmlspecialchars($fullname); ?></h2>
+              <p><b>Username :</b> <?php echo htmlspecialchars($username); ?> | <b>LRN :</b> <?php echo htmlspecialchars($depedAcct); ?></p>
+              <p><b>Email :</b> <?php echo htmlspecialchars($email); ?></p>
+              <p class="bio">Web developer | Tech enthusiast | Lifelong learner</p>
+            </div>
+                  
+            <div class="profile-actions">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                <button class="btn btn-danger" onclick="window.location.href='index.php'">Sign Out</button>
             </div>
         </div>
         <!-- End Profile -->
-      </section>
+    </section>
 
     <!-- Progress and Recents -->
     <section class="graphs-dynamic">
@@ -227,15 +238,32 @@ $profilePic = !empty($user['userPhoto']) ? 'data:image/jpeg;base64,' . base64_en
             <?php if (!empty($user['userPhoto'])): ?>
               <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userPhoto']); ?>" class="img-thumbnail rounded-circle" width="150" height="150">
             <?php else: ?>
-              <img src="default-profile.png" class="img-thumbnail rounded-circle" width="150" height="150">
+              <img src="images/profiles/default.png" class="img-thumbnail rounded-circle" width="150" height="150">
             <?php endif; ?>
           </div>
 
-          <!-- File Upload Field -->
           <div class="form-group">
             <label for="userPhoto">Profile Picture</label>
             <input type="file" class="form-control-file" id="userPhoto" name="userPhoto" accept="image/*">
           </div>
+
+          <div class="form-group text-center">
+              <!-- Display current cover photo -->
+              <?php if (!empty($user['userCover'])): ?>
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userCover']); ?>" class="img-thumbnail" width="300" height="100">
+              <?php else: ?>
+                  <img src="images/covers/cover.jpg" class="img-thumbnail" width="300" height="100">
+              <?php endif; ?>
+          </div>
+
+          <!-- File Upload Field -->
+          <div class="form-group">
+              <label for="userCover">Cover Photo</label>
+              <input type="file" class="form-control-file" id="userCover" name="userCover" accept="image/*">
+          </div>
+
+          
+
 
           <div class="form-group">
             <label for="fullname">Full Name</label>
