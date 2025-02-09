@@ -5,34 +5,32 @@
     
     require '../config/connection.php';
 
-    // Handle form submission to add a new subject
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subjectCode = trim($_POST['subjectCode']);
         $subjectName = trim($_POST['subjectName']);
-        $addedBy = "Admin"; // You can change this to dynamically fetch the admin's name
-        $dateAdded = date("Y-m-d H:i:s");
+        $addedBy = "Admin";
 
-        if (!empty($subjectCode) && !empty($subjectName)) {
-            $insertQuery = "INSERT INTO subjects (subjectCode, subjectName, dateAdded, addedBy) VALUES (:subjectCode, :subjectName, :dateAdded, :addedBy)";
-            $insertStmt = $pdo->prepare($insertQuery);
-            $insertStmt->execute([
-                ':subjectCode' => $subjectCode,
-                ':subjectName' => $subjectName,
-                ':dateAdded' => $dateAdded,
-                ':addedBy' => $addedBy
-            ]);
-            
-            // Redirect to refresh the page and prevent resubmission
-            header("Location: adminPanel.php");
-            exit();
+
+        try{
+            $stmt = $pdo->prepare("INSERT INTO subjects (subjectCode, subjectName, dateAdded, addedBy) 
+                                   VALUES (:subjectCode, :subjectName, NOW(), :addedBy)");
+
+            $stmt->bindParam(':subjectCode', $subjectCode);
+            $stmt->bindParam(':subjectName', $subjectName);
+            $stmt->bindParam(':addedBy', $addedBy);
+            if ($stmt->execute()) {
+                // Redirect to a confirmation page or the same page with a success message
+                header("Location: ../admin_files/adminPanel.php?status=success");
+                exit();
+            } else {
+                // Handle the error if the query fails
+                die("Error: Unable to add the subject.");
+            }
         }
+        catch (PDOException $e) {
+            // Handle PDO exceptions
+            echo "Error: " . $e->getMessage();
+        }  
     }
-
-    // Fetch subjects from the database
-    $query = "SELECT subjectCode, subjectName, dateAdded, addedBy FROM subjects ORDER BY dateAdded DESC";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 ?>

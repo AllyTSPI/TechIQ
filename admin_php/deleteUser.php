@@ -1,29 +1,29 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-require '../config/connection.php';
+    require '../config/connection.php';
 
-if (isset($_GET['userID'])) {
-    $userID = $_GET['userID'];
+    if (!isset($_GET['userID']) || !is_numeric($_GET['userID'])) {
+        die("Invalid request for deleting user. Debug: userID is " . (isset($_GET['userID']) ? var_export($_GET['userID'], true) : "NOT SET"));
+    }
 
-    try {
-        // Prepare the DELETE query
+    $userID = $GET['userID'];
+
+    try{
         $stmt = $pdo->prepare("DELETE FROM users WHERE userID = :userID");
         $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            // Redirect back to admin panel after successful deletion
+        
+        if ($stmt->execute()){
             header("Location: ../admin_files/adminPanel.php?message=User deleted successfully");
             exit();
-        } else {
-            echo "Error deleting user.";
+        } 
+        else{
+            die("\t\t\t\t\t\t\t\t\tError deleting user.");
         }
-    } catch (PDOException $e) {
+    }
+    catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-} else {
-    echo "Invalid request.";
-}
 ?>

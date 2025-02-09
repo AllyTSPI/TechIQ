@@ -2,13 +2,23 @@
     session_start();
 
     require '../config/connection.php';
+
+    require '../admin_php/showSubjects.php';
     require '../admin_php/addSubject.php';
+    //require '../admin_php/deleteSubject.php';
+    
     require '../admin_php/showAdmin.php';
+    
     require '../admin_php/showUsers.php';
-    require '../admin_php/deleteUser.php';
+    //require '../admin_php/deleteUser.php';
+    
     require '../admin_php/uploadMaterial.php';
+    //require '../admin_php/deleteModule.php';
     require '../admin_php/downloadMaterial.php';
+    
+    require '../admin_php/showQuizzes.php';
     require '../admin_php/addQuizForm.php';
+    //require '../admin_php/deleteQuiz.php';
 
     // Check if form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -125,7 +135,7 @@
                 <div class="quiz-content">
                     <h4>Quizzes</h4>
 
-                    <form id="addQuizForm" action="../admin_files/adminPanel.php" method="POST" enctype="multipart/form-data">
+                    <form id="addQuizForm" action="../admin_php/addQuizForm.php" method="POST" enctype="multipart/form-data">
                         
                         <div class="form-group">
                             <input type="text" name="quizCode" id="quizCode" class="form-control" placeholder="Quiz Code" required>
@@ -139,6 +149,11 @@
                             <input type="text" name="quizLink" id="quizLink" class="form-control" placeholder="Quiz Link" required>
                         </div>
 
+                        <div class="form-group">
+                            <label for="quizIcon">Upload Quiz Icon:</label>
+                            <input type="file" name="quizIcon" id="quizIcon" class="form-control" accept="image/*" required>
+                        </div>
+
                         <button type="submit" class="btn btn-success">Add Quiz</button>
 
                     </form>
@@ -149,20 +164,24 @@
                         <table class="table table-striped">
                             <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
                                 <tr>
-                                    <th></th>
-                                    <th>Quiz Code</th>
-                                    <th>Subject Name</th>
-                                    <th>Quiz Link</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Quiz Code</th>
+                                    <th scope="col">Subject Name</th>
+                                    <th scope="col">Quiz Link</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($quizzes as $quiz): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($quiz['ID']) ?></td>
-                                    <td><?= htmlspecialchars($quiz['quizCode']) ?></td>
-                                    <td><?= htmlspecialchars($quiz['subjectName']) ?></td>
-                                    <td><?= htmlspecialchars($quiz['quizLink']) ?></td>
-                                </tr>
+                                    <tr>
+                                        <td><?= htmlspecialchars($quiz['ID']) ?></td>
+                                        <td><?= htmlspecialchars($quiz['quizCode']) ?></td>
+                                        <td><?= htmlspecialchars($quiz['subjectName']) ?></td>
+                                        <td><?= htmlspecialchars($quiz['quizLink']) ?></td>
+                                        <td>
+                                            <a href="../admin_php/deleteModule.php?ID=<?= $quiz['ID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this quiz?');">Delete</a>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -204,6 +223,7 @@
                                     <th>Module Name</th>
                                     <th>Date Created</th>
                                     <th>Attachment</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -218,6 +238,9 @@
                                             <?= htmlspecialchars($material['fileName']) ?>
                                         </a>
                                     </td>
+                                    <td>
+                                        <a href="../admin_php/deleteModule.php?ID=<?= $material['ID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this module?');">Delete</a>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -227,112 +250,113 @@
 
                 <!-- Users Content -->
                 <div class="users-content">
-    <h4>Users</h4>
-    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-        <table class="table table-striped">
-            <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">LRN</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Last Login Date</th>
-                    <th scope="col">Actions</th> <!-- New column for actions -->
-                </tr>
-            </thead>
-            <tbody id="subjectTableBody">
-                <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= htmlspecialchars($user['userID']) ?></td>
-                    <td><?= htmlspecialchars($user['fullname']) ?></td>
-                    <td><?= htmlspecialchars($user['username']) ?></td>
-                    <td><?= htmlspecialchars($user['depedAcct']) ?></td>
-                    <td><?= htmlspecialchars($user['email']) ?></td>
-                    <td><?= htmlspecialchars($user['lastLoginDate']) ?></td>
-                    <td>
-                        <a href="../admin_php/deleteUser.php?userID=<?= $user['userID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-                <!-- List of Admins Content -->
-                <div class="list-of-admins-content">
-                    <h4>List of Admins</h4>
-                    <br>
-
+                    <h4>Users</h4>
                     <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                         <table class="table table-striped">
                             <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Admin Name</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">LRN</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Last Login Date</th>
+                                    <th scope="col">Actions</th> <!-- New column for actions -->
                                 </tr>
                             </thead>
                             <tbody id="subjectTableBody">
-                                <?php foreach ($admins as $admin): ?>
+                                <?php foreach ($users as $user): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($admin['id']) ?></td>
-                                    <td><?= htmlspecialchars($admin['name']) ?></td>
-                                    <td><?= htmlspecialchars($admin['lastLoginDate']) ?></td>
+                                    <td><?= htmlspecialchars($user['userID']) ?></td>
+                                    <td><?= htmlspecialchars($user['fullname']) ?></td>
+                                    <td><?= htmlspecialchars($user['username']) ?></td>
+                                    <td><?= htmlspecialchars($user['depedAcct']) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= htmlspecialchars($user['lastLoginDate']) ?></td>
+                                    <td>
+                                        <a href="../admin_php/deleteUser.php?userID=<?= $user['userID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                    </div>
                 </div>
-                
-
-                <!-- List of Subjects Content -->
-                <div class="list-of-subjects-content">
-                    <h4>List of Subjects</h4>
-
-                    <!-- Add Subject Form -->
-                    <form id="addSubjectForm" action="adminPanel.php" method="POST">
-                        <input type="text" name="subjectCode" placeholder="Subject Code" required>
-                        <input type="text" name="subjectName" placeholder="Subject Name" required>
-                        <button type="submit" class="btn btn-success">Add Subject</button>
-                    </form>
-
-                    <br>
-
-                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                        <table class="table table-striped">
-                            <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
-                                <tr>
-                                    <th scope="col">Subject Code</th>
-                                    <th scope="col">Subject Name</th>
-                                    <th scope="col">Date Added</th>
-                                    <th scope="col">Added By</th>
-                                    <!--<th scope="col">Actions</th>-->
-                                </tr>
-                            </thead>
-                            <tbody id="subjectTableBody">
-                                <?php foreach ($subjects as $subject): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($subject['subjectCode']) ?></td>
-                                    <td><?= htmlspecialchars($subject['subjectName']) ?></td>
-                                    <td><?= htmlspecialchars($subject['dateAdded']) ?></td>
-                                    <td><?= htmlspecialchars($subject['addedBy']) ?></td>
-                                    <!-- <td>
-                                        <a href="#" class="btn btn-info btn-sm edit-btn" data-code="">Edit</a>
-                                        <a href="deleteSubject.php?code=" class="btn btn-danger btn-sm">Delete</a>
-                                    </td> -->
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-
             </div>
+
+            <!-- List of Admins Content -->
+            <div class="list-of-admins-content">
+                <h4>List of Admins</h4>
+                <br>
+
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Admin Name</th>
+                                <th scope="col">Last Login Date</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectTableBody">
+                            <?php foreach ($admins as $admin): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($admin['id']) ?></td>
+                                <td><?= htmlspecialchars($admin['name']) ?></td>
+                                <td><?= htmlspecialchars($admin['lastLoginDate']) ?></td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm edit-btn" data-code="">Delete</a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                
+            <!-- List of Subjects Content -->
+            <div class="list-of-subjects-content">
+                <h4>List of Subjects</h4>
+                <!-- Add Subject Form -->
+                <form id="addSubjectForm" action="adminPanel.php" method="POST">
+                    <input type="text" name="subjectCode" placeholder="Subject Code" required>
+                    <input type="text" name="subjectName" placeholder="Subject Name" required>
+                    <button type="submit" class="btn btn-success">Add Subject</button>
+                </form>
+
+                <br>
+
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark" style="position: sticky; top: 0; background: white; z-index: 10;">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Subject Code</th>
+                                <th scope="col">Subject Name</th>
+                                <th scope="col">Date Added</th>
+                                <th scope="col">Added By</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectTableBody">
+                            <?php foreach ($subjects as $subject): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($subject['ID']) ?></td>
+                                <td><?= htmlspecialchars($subject['subjectCode']) ?></td>
+                                <td><?= htmlspecialchars($subject['subjectName']) ?></td>
+                                <td><?= htmlspecialchars($subject['dateAdded']) ?></td>
+                                <td><?= htmlspecialchars($subject['addedBy']) ?></td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm edit-btn" data-code="">Edit</a>
+                                    <a href="#" class="btn btn-danger btn-sm edit-btn" data-code="">Delete</a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -386,10 +410,6 @@
             $('.' + sectionClass).show();
         }
     });
-
-
-
-
 
 </script>
 </body>

@@ -1,3 +1,22 @@
+<?php
+    
+    require 'config/connection.php';
+
+    try {
+        // Prepare the SQL query to fetch quiz data
+        $sql = "SELECT subjectName, quizLink, quizIcon FROM quizzess ORDER BY dateCreated DESC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        
+        // Fetch all quizzes
+        $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Error fetching quizzes: " . $e->getMessage());
+    }
+
+?>
+
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -38,64 +57,27 @@
 
         <!-- Quizzes Section -->
         <section class="quizzes container mt-5">
-            <div class="row">
-                <!-- 1st Column: Title and Paragraph -->
+    <div class="row">
+        <?php
+        if (!empty($quizzes)) {
+            foreach ($quizzes as $quiz) {
+                ?>
                 <div class="col-lg-4 col-md-6 mb-4 px-3">
                     <div class="p-3 custom-border">
-                        <img src="images/kahoot.png" alt="Description 1" class="img-fluid mb-3">
-                        <p class="custom-paragraph">ENGLISH</p>
-                        <a href="https://create.kahoot.it/share/english-quiz/5b6d65fb-cdb1-4870-aca9-475b81d8c606" target="_blank" class="btn btn-custom">Take Quiz</a>
+                    <img src="data:image/png;base64,<?php echo base64_encode($quiz['quizIcon']); ?>" 
+                    alt="<?php echo htmlspecialchars($quiz['subjectName']); ?>" class="img-fluid mb-3">
+                        <p class="custom-paragraph"><?php echo htmlspecialchars($quiz['subjectName']); ?></p>
+                        <a href="<?php echo htmlspecialchars($quiz['quizLink']); ?>" target="_blank" class="btn btn-custom">Take Quiz</a>
                     </div>
                 </div>
-
-                <!-- 2nd Column: Picture and Description -->
-                <div class="col-lg-4 col-md-6 mb-4 px-3">
-                    <div class="p-3 custom-border">
-                        <img src="images/kahoot.png" alt="Description 1" class="img-fluid mb-3">
-                        <p class="custom-paragraph">PHILOSOPHY</p>
-                        <a href="https://create.kahoot.it/share/philosophy-quiz/b1c122ff-0bb7-444d-b7ae-73bfab44706e
-" target="_blank" class="btn btn-custom">Take Quiz</a>
-                    </div>
-                </div>
-
-                <!-- 3rd Column: Picture and Description -->
-                <div class="col-lg-4 col-md-6 mb-4 px-3">
-                    <div class="p-3 custom-border">
-                        <img src="images/quizziz.png" alt="Description 2" class="img-fluid mb-3">
-                        <p class="custom-paragraph">FILIPINO</p>
-                        <a href="https://quizizz.com/admin/assessment/67a0c02f5d0cded32f7fcca0?source=lesson_share" target="_blank" class="btn btn-custom">Take Quiz</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- 4th Column: Title and Paragraph -->
-                <div class="col-lg-4 col-md-6 mb-4 px-3">
-                    <div class="p-3 custom-border">
-                        <img src="images/quizlet.png" alt="Description 4" class="img-fluid mb-3">
-                        <p class="custom-paragraph">SCIENCE</p>
-                        <a href="https://quizlet.com/test-questions/science-concepts-practice-test-3e431fc6-616c-467b-878b-68cbe8718bb3?x=1jqU https://quizlet.com/test-questions/science-concepts-practice-test-3e431fc6-616c-467b-878b-68cbe8718bb3?x=1jqU" target="_blank" class="btn btn-custom">Take Quiz</a>
-                    </div>
-                </div>
-
-                <!-- 5th Column: Picture and Description -->
-                <div class="col-lg-4 col-md-6 mb-4 px-3">
-                    <div class="p-3 custom-border">
-                        <img src="images/quizziz.png" alt="Description 5" class="img-fluid mb-3">
-                        <p class="custom-paragraph">21ST CENTURY</p>
-                        <a href="https://quizizz.com/admin/quiz/67a1edd1dce7dc1c2ca716f5" target="_blank" class="btn btn-custom">Take Quiz</a>
-                    </div>
-                </div>
-
-                <!-- 6th Column: Picture and Description -->
-                <div class="col-lg-4 col-md-6 mb-4 px-3">
-                    <div class="p-3 custom-border">
-                        <img src="images/quizziz.png" alt="Description 6" class="img-fluid mb-3">
-                        <p class="custom-paragraph">MATHEMATICS</p>
-                        <a href="https://quizizz.com/admin/quiz/67a1a2d0b3bbab964f1d9bcd" target="_blank" class="btn btn-custom">Take Quiz</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+                <?php
+            }
+        } else {
+            echo "<p>No quizzes available.</p>";
+        }
+        ?>
+    </div>
+</section>
 
         <!-- End  Quizzes Section  -->
 
