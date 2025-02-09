@@ -277,7 +277,10 @@
                                     <td><?= htmlspecialchars($user['email']) ?></td>
                                     <td><?= htmlspecialchars($user['lastLoginDate']) ?></td>
                                     <td>
-                                        <a href="../admin_php/deleteUser.php?userID=<?= $user['userID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                        <form method="POST" action="../admin_php/showUsers.php">
+                                            <input type="hidden" name="usersID" value="<?= htmlspecialchars($subject['userID']) ?>">
+                                            <button type="submit" name="deleteUsers" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -308,7 +311,10 @@
                                 <td><?= htmlspecialchars($admin['name']) ?></td>
                                 <td><?= htmlspecialchars($admin['lastLoginDate']) ?></td>
                                 <td>
-                                    <a href="#" class="btn btn-danger btn-sm edit-btn" data-code="">Delete</a>
+                                    <form method="POST" action="../admin_php/showAdmin.php">
+                                        <input type="hidden" name="adminID" value="<?= htmlspecialchars($admin['id']) ?>">
+                                        <button type="submit" name="deleteAdmin" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this admin?');">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -350,8 +356,10 @@
                                 <td><?= htmlspecialchars($subject['dateAdded']) ?></td>
                                 <td><?= htmlspecialchars($subject['addedBy']) ?></td>
                                 <td>
-                                    <a href="#" class="btn btn-info btn-sm edit-btn" data-code="">Edit</a>
-                                    <a href="#" class="btn btn-danger btn-sm edit-btn" data-code="">Delete</a>
+                                    <form method="POST" action="../admin_php/showSubjects.php">
+                                        <input type="hidden" name="subjectID" value="<?= htmlspecialchars($subject['ID']) ?>">
+                                        <button type="submit" name="deleteSubject" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this subject?');">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
