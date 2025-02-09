@@ -41,10 +41,4 @@
             echo "<script>alert('Please select a valid file.'); window.history.back();</script>";
         }
     }
-
-    // Display the materials
-    $query = "SELECT ID, subjectCode, moduleName, fileName, dateAdded FROM learningMaterials ORDER BY dateAdded DESC";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    $learningMaterials = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

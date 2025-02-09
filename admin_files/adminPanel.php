@@ -5,20 +5,17 @@
 
     require '../admin_php/showSubjects.php';
     require '../admin_php/addSubject.php';
-    //require '../admin_php/deleteSubject.php';
     
     require '../admin_php/showAdmin.php';
     
     require '../admin_php/showUsers.php';
-    //require '../admin_php/deleteUser.php';
     
     require '../admin_php/uploadMaterial.php';
-    //require '../admin_php/deleteModule.php';
+    require '../admin_php/showMaterial.php';
     require '../admin_php/downloadMaterial.php';
     
     require '../admin_php/showQuizzes.php';
     require '../admin_php/addQuizForm.php';
-    //require '../admin_php/deleteQuiz.php';
 
     // Check if form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -179,7 +176,10 @@
                                         <td><?= htmlspecialchars($quiz['subjectName']) ?></td>
                                         <td><?= htmlspecialchars($quiz['quizLink']) ?></td>
                                         <td>
-                                            <a href="../admin_php/deleteModule.php?ID=<?= $quiz['ID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this quiz?');">Delete</a>
+                                            <form method="POST" action="../admin_php/showQuizzes.php">
+                                                <input type="hidden" name="quizID" value="<?= htmlspecialchars($quiz['ID']) ?>">
+                                                <button type="submit" name="deleteQuiz" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this quiz?');">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -239,7 +239,10 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="../admin_php/deleteModule.php?ID=<?= $material['ID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this module?');">Delete</a>
+                                        <form method="POST" action="../admin_php/showMaterial.php">
+                                            <input type="hidden" name="materialID" value="<?= htmlspecialchars($material['ID']) ?>">
+                                            <button type="submit" name="deleteMaterial" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Material?');">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
