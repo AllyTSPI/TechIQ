@@ -2,8 +2,46 @@
     session_start();
     
     require 'config/connection.php';
-    require './user_backend/showMaterials.php';
     require './user_backend/DLModule.php';
+
+
+    // Display learning materials for the user
+$query = "SELECT ID, subjectCode, moduleName, fileName, dateAdded FROM learningMaterials ORDER BY dateAdded DESC";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$learningMaterials = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// If a file preview is requested
+if (isset($_GET['viewFileID'])) {
+    $fileName = urldecode($_GET['viewFileID']);
+
+    // Fetch file from the database
+    $query = "SELECT attachment, moduleName FROM learningMaterials WHERE fileName = ?";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$fileName]);
+    $file = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($file) {
+        $fileData = $file['attachment'];
+        $moduleName = $file['moduleName'];
+
+        // Get file mime type dynamically
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->buffer($fileData);
+
+        // Set headers to display the file
+        header("Content-Type: $mimeType");
+        header("Content-Disposition: inline; filename=\"$moduleName\"");
+        echo $fileData;
+        exit; // Stop script execution after file output
+    } else {
+        echo "File not found!";
+        exit;
+    }
+}
+
+
+
 ?>
 
 <!doctype html>
@@ -62,7 +100,6 @@
           <table class="table table-striped table-bordered">
               <thead class="thead-dark">
                   <tr>
-                      <th></th>
                       <th>File Name</th>
                       <th>Last Updated</th>
                       <th>Views</th>
@@ -73,7 +110,6 @@
               <tbody>
                   <?php foreach ($learningMaterials as $material): ?>
                       <tr>
-                          <td></td>
                           <td><?= htmlspecialchars($material['fileName']) ?></td>
                           <td><?= htmlspecialchars($material['dateAdded']) ?></td>
                           <td id="views-<?= $material['ID'] ?>">
@@ -83,7 +119,7 @@
                               <?= isset($material['favorites']) ? htmlspecialchars($material['favorites']) : '0' ?>
                           </td>
                           <td>
-                              <a href="user_backend/viewMaterials.php?viewFileID=<?= urlencode($material['fileName']) ?>"
+                              <a href="learningMaterials.php?viewFileID=<?= urlencode($material['fileName']) ?>"
                                 class="btn btn-sm btn-success download-btn" 
                                 data-id="<?= htmlspecialchars($material['fileName']) ?>"
                                 target="_blank">

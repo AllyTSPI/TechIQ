@@ -83,7 +83,6 @@
     $coverPhoto = !empty($user['userCover']) ? 'data:image/jpeg;base64,' . base64_encode($user['userCover']) : 'images/covers/cover.jpg';
 ?>
 
-
 <!doctype html>
 <html lang="en">
     <head>
@@ -174,81 +173,80 @@
             </div>
         </div>
     </section>
-
     <!-- End graphs-dynamic Section -->
 
     <!--Call JS-->
     <script src="./js/scripts.js"></script>
 
     <!-- MODAL -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Edit Form -->
-        <form method="POST" action="" enctype="multipart/form-data">
-          <div class="form-group text-center">
-            <!-- Display current profile picture -->
-            <?php if (!empty($user['userPhoto'])): ?>
-              <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userPhoto']); ?>" class="img-thumbnail rounded-circle" width="150" height="150">
-            <?php else: ?>
-              <img src="images/profiles/default.png" class="img-thumbnail rounded-circle" width="150" height="150">
-            <?php endif; ?>
-          </div>
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- Edit Form -->
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        <div class="form-group text-center">
+                            <!-- Display current profile picture -->
+                            <?php if (!empty($user['userPhoto'])): ?>
+                              <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userPhoto']); ?>" class="img-thumbnail rounded-circle" width="150" height="150">
+                            <?php else: ?>
+                              <img src="images/profiles/default.png" class="img-thumbnail rounded-circle" width="150" height="150">
+                            <?php endif; ?>
+                        </div>
 
-          <div class="form-group">
-            <label for="userPhoto">Profile Picture</label>
-            <input type="file" class="form-control-file" id="userPhoto" name="userPhoto" accept="image/*">
-          </div>
+                        <div class="form-group">
+                          <label for="userPhoto">Profile Picture</label>
+                          <input type="file" class="form-control-file" id="userPhoto" name="userPhoto" accept="image/*">
+                        </div>
 
-          <div class="form-group text-center">
-              <!-- Display current cover photo -->
-              <?php if (!empty($user['userCover'])): ?>
-                  <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userCover']); ?>" class="img-thumbnail" width="300" height="100">
-              <?php else: ?>
-                  <img src="images/covers/cover.jpg" class="img-thumbnail" width="300" height="100">
-              <?php endif; ?>
-          </div>
+                        <div class="form-group text-center">
+                            <!-- Display current cover photo -->
+                            <?php if (!empty($user['userCover'])): ?>
+                                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userCover']); ?>" class="img-thumbnail" width="300" height="100">
+                            <?php else: ?>
+                                <img src="images/covers/cover.jpg" class="img-thumbnail" width="300" height="100">
+                            <?php endif; ?>
+                        </div>
 
-          <!-- File Upload Field -->
-          <div class="form-group">
-              <label for="userCover">Cover Photo</label>
-              <input type="file" class="form-control-file" id="userCover" name="userCover" accept="image/*">
-          </div>
+                        <!-- File Upload Field -->
+                        <div class="form-group">
+                            <label for="userCover">Cover Photo</label>
+                            <input type="file" class="form-control-file" id="userCover" name="userCover" accept="image/*">
+                        </div>
 
-          
+                        <div class="form-group">
+                          <label for="fullname">Full Name</label>
+                          <input type="text" class="form-control" id="fullname" name="fullname" value="<?php echo htmlspecialchars($fullname); ?>" required>
+                        </div>
 
+                        <div class="form-group">
+                          <label for="depedAcct">LRN</label>
+                          <input type="text" class="form-control" id="depedAcct" name="depedAcct" value="<?php echo htmlspecialchars($depedAcct); ?>" required>
+                        </div>
 
-          <div class="form-group">
-            <label for="fullname">Full Name</label>
-            <input type="text" class="form-control" id="fullname" name="fullname" value="<?php echo htmlspecialchars($fullname); ?>" required>
-          </div>
-          <div class="form-group">
-            <label for="depedAcct">LRN</label>
-            <input type="text" class="form-control" id="depedAcct" name="depedAcct" value="<?php echo htmlspecialchars($depedAcct); ?>" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
-          </div>
-          <div class="form-group">
-            <button type="submit" name="saveProfile" class="btn btn-success">Save Profile</button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                          <button type="submit" name="saveProfile" class="btn btn-success">Save Profile</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<!-- END MODAL -->
-
+    <!-- END MODAL -->
   </body>
 </html>
