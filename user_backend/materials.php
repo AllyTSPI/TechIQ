@@ -1,4 +1,5 @@
 <?php
+
     //Downloads
     if(isset($_GET['fileName']))
     {
@@ -88,6 +89,5 @@
             exit;
         }
     }
-
 
 ?>

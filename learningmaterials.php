@@ -55,18 +55,17 @@
                           <td><?= htmlspecialchars($material['downloads']) ?></td>
                           <td>
                               <a href="learningMaterials.php?viewFileID=<?= urlencode($material['fileName']) ?>" 
-                                class="btn btn-sm btn-success view-btn"
+                                class="btn btn-sm view-btn"
                                 data-id="<?= $material['ID'] ?>"
                                 data-file="<?= urlencode($material['fileName']) ?>"
                                 target="_blank">
-                                <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye"></i>
                               </a>
                               <a href="learningMaterials.php?fileName=<?= urlencode($material['fileName']) ?>"
-                                class="btn btn-sm btn-success download-btn" 
+                                class="btn btn-sm download-btn" 
                                 data-id="<?= htmlspecialchars($material['fileName']) ?>">
-                                <i class="fa fa-download"></i>
+                                    <i class="fa fa-download"></i>
                               </a>
-
                           </td>
                       </tr>
                   <?php endforeach; ?>

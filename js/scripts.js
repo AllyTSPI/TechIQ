@@ -1,6 +1,6 @@
 // Dynamically load jQuery
 var jqueryScript = document.createElement('script');
-jqueryScript.src = 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js';
+jqueryScript.src = 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js';
 document.head.appendChild(jqueryScript);
 
 // Dynamically load Bootstrap
@@ -60,6 +60,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log("Download button clicked. File ID: " + fileID);
             console.log("Download link: " + href);
+        });
+    });
+});
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            let fileName = this.getAttribute('data-file');
+            let isFavorited = this.getAttribute('data-favorited') === 'yes';
+            let icon = this.querySelector('i');
+
+            fetch(`learningMaterials.php?favoriteFile=${fileName}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'added') {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.setAttribute('data-favorited', 'yes');
+                } else if (data.status === 'removed') {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.setAttribute('data-favorited', 'no');
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
 });

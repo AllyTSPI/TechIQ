@@ -113,7 +113,7 @@
                     
                 <div class="profile-actions">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
-                    <button class="btn btn-danger" onclick="window.location.href='index.php'">Sign Out</button>
+                    <button class="btn btn-danger" onclick="window.location.href='index.php'">Log Out</button>
                 </div>
             </div>
             <!-- End Profile -->

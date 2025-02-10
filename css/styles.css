@@ -550,4 +550,10 @@ span{
 /***** END QUIZZES *****/
 
 
-
+/** LEARNING MATERIALS **/
+.view-btn i,
+.download-btn i,
+.star-btn i,
+.bookmark-btn i {
+    color: #081a83;
+}
