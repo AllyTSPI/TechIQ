@@ -97,9 +97,9 @@
     }
 
     $progressQuery = "SELECT subjectCode, SUM(views + downloads) AS totalActions
-                    FROM userProgress 
-                    WHERE userID = :userID 
-                    GROUP BY subjectCode";
+                  FROM userProgress 
+                  WHERE userID = :userID 
+                  GROUP BY subjectCode";
     $progressStmt = $pdo->prepare($progressQuery);
     $progressStmt->bindParam(':userID', $userID, PDO::PARAM_INT);
     $progressStmt->execute();
@@ -107,9 +107,14 @@
 
     // Function to calculate progress in steps
     function calculateProgress($actions) {
-        if ($actions >= 10) return 35;
-        if ($actions >= 8) return 30;
-        if ($actions >= 6) return 25;
+        if ($actions >= 20) return 100; // Max out at 100%
+        if ($actions >= 18) return 90;
+        if ($actions >= 16) return 80;
+        if ($actions >= 14) return 70;
+        if ($actions >= 12) return 60;
+        if ($actions >= 10) return 50;
+        if ($actions >= 8) return 40;
+        if ($actions >= 6) return 30;
         if ($actions >= 4) return 20;
         if ($actions >= 2) return 10;
         return 0;
