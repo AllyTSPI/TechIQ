@@ -93,160 +93,138 @@
         <title>TechIQ</title>
     </head>
     <body class="dashboardPage">
-    <!---navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light custom-nav">
-      <a class="navbar-brand" href="index.php">TechIQ</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i> 
-      </button>
-    
-      <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active mr-4">
-            <a class="nav-link" href="about.php">About<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item mr-4">
-            <a class="nav-link" href="learningmaterials.php">Learning Materials</a>
-          </li>
-          <li class="nav-item mr-4">
-            <a class="nav-link" href="quizzes.php">Quizzes</a>
-          </li>
-          <li class="nav-item mr-4">
-            <a class="nav-link" href="landing.php">Profile</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!---end navbar-->
+        <!---navbar-->
+        <?php include 'user_backend/navbar.php';?>
+        <!---end navbar-->
 
-    <!-- Dashboard Section -->
-    <section class="dashboard">
-        <!-- Profile -->
-        <div class="cover-photo" style="background: url('<?php echo $coverPhoto; ?>') center/cover no-repeat;"></div>
-        <div class="profile-info">
-            <div class="profile-pic" style="background: url('<?php echo $profilePic; ?>') center/cover no-repeat;"></div>                    
-            <!--- PHP INPUTS --->
-            <div class="profile-details">
-                <h2><?php echo htmlspecialchars($fullname); ?></h2>
-                <p><b>Username :</b> <?php echo htmlspecialchars($username); ?> | <b>LRN :</b> <?php echo htmlspecialchars($depedAcct); ?></p>
-                <p><b>Email :</b> <?php echo htmlspecialchars($email); ?></p>
-                <p class="bio">Web developer | Tech enthusiast | Lifelong learner</p>
+        <!-- Dashboard Section -->
+        <section class="dashboard">
+            <!-- Profile -->
+            <div class="cover-photo" style="background: url('<?php echo $coverPhoto; ?>') center/cover no-repeat;"></div>
+            <div class="profile-info">
+                <div class="profile-pic" style="background: url('<?php echo $profilePic; ?>') center/cover no-repeat;"></div>                    
+                <!--- PHP INPUTS --->
+                <div class="profile-details">
+                    <h2><?php echo htmlspecialchars($fullname); ?></h2>
+                    <p><b>Username :</b> <?php echo htmlspecialchars($username); ?> | <b>LRN :</b> <?php echo htmlspecialchars($depedAcct); ?></p>
+                    <p><b>Email :</b> <?php echo htmlspecialchars($email); ?></p>
+                    <p class="bio">Web developer | Tech enthusiast | Lifelong learner</p>
+                </div>
+                    
+                <div class="profile-actions">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                    <button class="btn btn-danger" onclick="window.location.href='index.php'">Sign Out</button>
+                </div>
             </div>
-                  
-            <div class="profile-actions">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
-                <button class="btn btn-danger" onclick="window.location.href='index.php'">Sign Out</button>
-            </div>
-        </div>
-        <!-- End Profile -->
-    </section>
+            <!-- End Profile -->
+        </section>
 
-    <!-- Progress and Recents -->
-    <section class="graphs-dynamic">
-        <div class="container mt-4">
-            <div class="row justify-content-center"> <!-- Centering row -->
-                <div class="progress-section col-md-5 text-center">
-                    <h3 class="centered-heading">Progress</h3>
-                    <div class="progress-chart">
-                        <div class="progress-list d-flex align-items-end justify-content-center position-relative">      
-                            <?php
-                                $quizzes = [
-                                    'Mathematics' => 80,
-                                    'English' => 60,
-                                    'Filipino' => 90,
-                                    'History' => 50,
-                                ];
-                            ?>
-                            <?php foreach ($quizzes as $subject => $progress): ?>
-                                <div class="progress-item text-center mx-3">
-                                    <div class="progress vertical-bar">
-                                        <div class="progress-bar" role="progressbar" style="height: <?php echo $progress; ?>%;" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100">
-                                            <?php echo $progress; ?>%
+        <!-- Progress and Recents -->
+        <section class="graphs-dynamic">
+            <div class="container mt-4">
+                <div class="row justify-content-center"> <!-- Centering row -->
+                    <div class="progress-section col-md-5 text-center">
+                        <h3 class="centered-heading">Progress</h3>
+                        <div class="progress-chart">
+                            <div class="progress-list d-flex align-items-end justify-content-center position-relative">      
+                                <?php
+                                    $quizzes = [
+                                        'Mathematics' => 80,
+                                        'English' => 60,
+                                        'Filipino' => 90,
+                                        'History' => 50,
+                                    ];
+                                ?>
+                                <?php foreach ($quizzes as $subject => $progress): ?>
+                                    <div class="progress-item text-center mx-3">
+                                        <div class="progress vertical-bar">
+                                            <div class="progress-bar" role="progressbar" style="height: <?php echo $progress; ?>%;" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100">
+                                                <?php echo $progress; ?>%
+                                            </div>
                                         </div>
+                                        <p class="x-tick"><?php echo htmlspecialchars($subject); ?></p>
                                     </div>
-                                    <p class="x-tick"><?php echo htmlspecialchars($subject); ?></p>
-                                </div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- End graphs-dynamic Section -->
+        </section>
+        <!-- End graphs-dynamic Section -->
 
-    <!--Call JS-->
-    <script src="./js/scripts.js"></script>
+        <!--Call JS-->
+        <script src="./js/scripts.js"></script>
 
-    <!-- MODAL -->
-    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <!-- Edit Form -->
-                    <form method="POST" action="" enctype="multipart/form-data">
-                        <div class="form-group text-center">
-                            <!-- Display current profile picture -->
-                            <?php if (!empty($user['userPhoto'])): ?>
-                              <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userPhoto']); ?>" class="img-thumbnail rounded-circle" width="150" height="150">
-                            <?php else: ?>
-                              <img src="images/profiles/default.png" class="img-thumbnail rounded-circle" width="150" height="150">
-                            <?php endif; ?>
-                        </div>
+        <!-- MODAL -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <!-- Edit Form -->
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            <div class="form-group text-center">
+                                <!-- Display current profile picture -->
+                                <?php if (!empty($user['userPhoto'])): ?>
+                                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userPhoto']); ?>" class="img-thumbnail rounded-circle" width="150" height="150">
+                                <?php else: ?>
+                                <img src="images/profiles/default.png" class="img-thumbnail rounded-circle" width="150" height="150">
+                                <?php endif; ?>
+                            </div>
 
-                        <div class="form-group">
-                          <label for="userPhoto">Profile Picture</label>
-                          <input type="file" class="form-control-file" id="userPhoto" name="userPhoto" accept="image/*">
-                        </div>
+                            <div class="form-group">
+                            <label for="userPhoto">Profile Picture</label>
+                            <input type="file" class="form-control-file" id="userPhoto" name="userPhoto" accept="image/*">
+                            </div>
 
-                        <div class="form-group text-center">
-                            <!-- Display current cover photo -->
-                            <?php if (!empty($user['userCover'])): ?>
-                                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userCover']); ?>" class="img-thumbnail" width="300" height="100">
-                            <?php else: ?>
-                                <img src="images/covers/cover.jpg" class="img-thumbnail" width="300" height="100">
-                            <?php endif; ?>
-                        </div>
+                            <div class="form-group text-center">
+                                <!-- Display current cover photo -->
+                                <?php if (!empty($user['userCover'])): ?>
+                                    <img src="data:image/jpeg;base64,<?php echo base64_encode($user['userCover']); ?>" class="img-thumbnail" width="300" height="100">
+                                <?php else: ?>
+                                    <img src="images/covers/cover.jpg" class="img-thumbnail" width="300" height="100">
+                                <?php endif; ?>
+                            </div>
 
-                        <!-- File Upload Field -->
-                        <div class="form-group">
-                            <label for="userCover">Cover Photo</label>
-                            <input type="file" class="form-control-file" id="userCover" name="userCover" accept="image/*">
-                        </div>
+                            <!-- File Upload Field -->
+                            <div class="form-group">
+                                <label for="userCover">Cover Photo</label>
+                                <input type="file" class="form-control-file" id="userCover" name="userCover" accept="image/*">
+                            </div>
 
-                        <div class="form-group">
-                          <label for="fullname">Full Name</label>
-                          <input type="text" class="form-control" id="fullname" name="fullname" value="<?php echo htmlspecialchars($fullname); ?>" required>
-                        </div>
+                            <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" class="form-control" id="fullname" name="fullname" value="<?php echo htmlspecialchars($fullname); ?>" required>
+                            </div>
 
-                        <div class="form-group">
-                          <label for="depedAcct">LRN</label>
-                          <input type="text" class="form-control" id="depedAcct" name="depedAcct" value="<?php echo htmlspecialchars($depedAcct); ?>" required>
-                        </div>
+                            <div class="form-group">
+                            <label for="depedAcct">LRN</label>
+                            <input type="text" class="form-control" id="depedAcct" name="depedAcct" value="<?php echo htmlspecialchars($depedAcct); ?>" required>
+                            </div>
 
-                        <div class="form-group">
-                          <label for="email">Email</label>
-                          <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
-                        </div>
+                            <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                            </div>
 
-                        <div class="form-group">
-                          <button type="submit" name="saveProfile" class="btn btn-success">Save Profile</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <div class="form-group">
+                            <button type="submit" name="saveProfile" class="btn btn-success">Save Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- END MODAL -->
+        <!-- END MODAL -->
   </body>
 </html>
