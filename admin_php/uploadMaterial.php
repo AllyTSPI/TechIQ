@@ -23,14 +23,13 @@
             $favorites = 0;
     
             // Insert into Database
-            $stmt = $pdo->prepare("INSERT INTO learningMaterials (subjectCode, moduleName, fileName, attachment, views, downloads, favorites, dateAdded) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+            $stmt = $pdo->prepare("INSERT INTO learningMaterials (subjectCode, moduleName, fileName, attachment, views, downloads, dateAdded) VALUES (?, ?, ?, ?, ?, ?, NOW())");
             $stmt->bindParam(1, $subjectCode);
             $stmt->bindParam(2, $moduleName);
             $stmt->bindParam(3, $fileName);
             $stmt->bindParam(4, $fileContent, PDO::PARAM_LOB);
             $stmt->bindParam(5, $views, PDO::PARAM_INT);
             $stmt->bindParam(6, $downloads, PDO::PARAM_INT);
-            $stmt->bindParam(7, $favorites, PDO::PARAM_INT);
     
             if ($stmt->execute()) {
                 echo "<script>alert('Learning material uploaded successfully!'); window.location.href='../admin_files/adminPanel.php';</script>";

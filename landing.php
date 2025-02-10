@@ -81,6 +81,46 @@
 
     $profilePic = !empty($user['userPhoto']) ? 'data:image/jpeg;base64,' . base64_encode($user['userPhoto']) : 'images/profiles/default.png';
     $coverPhoto = !empty($user['userCover']) ? 'data:image/jpeg;base64,' . base64_encode($user['userCover']) : 'images/covers/cover.jpg';
+
+    $userID = $_SESSION['userID']; // Get logged-in user's ID
+
+    // Get unique subjects from learningMaterials
+    $subjectQuery = "SELECT DISTINCT subjectCode FROM learningMaterials";
+    $subjectStmt = $pdo->prepare($subjectQuery);
+    $subjectStmt->execute();
+    $subjects = $subjectStmt->fetchAll(PDO::FETCH_COLUMN);
+
+    // Initialize subjects with default progress values
+    $quizzes = [];
+    foreach ($subjects as $subject) {
+        $quizzes[$subject] = 0; // Set default progress to 0
+    }
+
+    $progressQuery = "SELECT subjectCode, SUM(views + downloads) AS totalActions
+                    FROM userProgress 
+                    WHERE userID = :userID 
+                    GROUP BY subjectCode";
+    $progressStmt = $pdo->prepare($progressQuery);
+    $progressStmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+    $progressStmt->execute();
+    $progressData = $progressStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Function to calculate progress in steps
+    function calculateProgress($actions) {
+        if ($actions >= 10) return 35;
+        if ($actions >= 8) return 30;
+        if ($actions >= 6) return 25;
+        if ($actions >= 4) return 20;
+        if ($actions >= 2) return 10;
+        return 0;
+    }
+
+    // Update progress values based on user history
+    foreach ($progressData as $row) {
+        if (isset($quizzes[$row['subjectCode']])) {
+            $quizzes[$row['subjectCode']] = calculateProgress($row['totalActions']);
+        }
+    }
 ?>
 
 <!doctype html>
@@ -121,20 +161,13 @@
 
         <!-- Progress and Recents -->
         <section class="graphs-dynamic">
-            <div class="container mt-4">
-                <div class="row justify-content-center"> <!-- Centering row -->
-                    <div class="progress-section col-md-5 text-center">
-                        <h3 class="centered-heading">Progress</h3>
-                        <div class="progress-chart">
-                            <div class="progress-list d-flex align-items-end justify-content-center position-relative">      
-                                <?php
-                                    $quizzes = [
-                                        'Mathematics' => 80,
-                                        'English' => 60,
-                                        'Filipino' => 90,
-                                        'History' => 50,
-                                    ];
-                                ?>
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="progress-section col-md-5 text-center">
+                    <h3 class="centered-heading">Progress</h3>
+                    <div class="progress-chart">
+                        <div class="progress-list d-flex align-items-end justify-content-center position-relative">
+                            <?php if (!empty($quizzes)): ?>
                                 <?php foreach ($quizzes as $subject => $progress): ?>
                                     <div class="progress-item text-center mx-3">
                                         <div class="progress vertical-bar">
@@ -145,12 +178,15 @@
                                         <p class="x-tick"><?php echo htmlspecialchars($subject); ?></p>
                                     </div>
                                 <?php endforeach; ?>
-                            </div>
+                            <?php else: ?>
+                                <p>No subjects available.</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
         <!-- End graphs-dynamic Section -->
 
         <!--Call JS-->
