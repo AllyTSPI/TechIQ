@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require '../config/connection.php';
+    require 'connection.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $adminName = $_POST['adminName'];

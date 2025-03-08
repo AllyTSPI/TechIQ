@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require '../config/connection.php';
+require 'connection.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

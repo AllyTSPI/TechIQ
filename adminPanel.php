@@ -1,21 +1,21 @@
 <?php
     session_start();
 
-    require '../config/connection.php';
+    require 'connection.php';
 
-    require '../admin_php/showSubjects.php';
-    require '../admin_php/addSubject.php';
+    require 'showSubjects.php';
+    require 'addSubject.php';
     
-    require '../admin_php/showAdmin.php';
+    require 'showAdmin.php';
     
-    require '../admin_php/showUsers.php';
+    require 'showUsers.php';
     
-    require '../admin_php/uploadMaterial.php';
-    require '../admin_php/showMaterial.php';
-    require '../admin_php/downloadMaterial.php';
+    require 'uploadMaterial.php';
+    require 'showMaterial.php';
+    require 'downloadMaterial.php';
     
-    require '../admin_php/showQuizzes.php';
-    require '../admin_php/addQuizForm.php';
+    require 'showQuizzes.php';
+    require 'addQuizForm.php';
 
     // Check if form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -132,7 +132,7 @@
                 <div class="quiz-content">
                     <h4>Quizzes</h4>
 
-                    <form id="addQuizForm" action="../admin_php/addQuizForm.php" method="POST" enctype="multipart/form-data">
+                    <form id="addQuizForm" action="addQuizForm.php" method="POST" enctype="multipart/form-data">
                         
                         <div class="form-group">
                             <input type="text" name="quizCode" id="quizCode" class="form-control" placeholder="Quiz Code" required>
@@ -176,7 +176,7 @@
                                         <td><?= htmlspecialchars($quiz['subjectName']) ?></td>
                                         <td><?= htmlspecialchars($quiz['quizLink']) ?></td>
                                         <td>
-                                            <form method="POST" action="../admin_php/showQuizzes.php">
+                                            <form method="POST" action="showQuizzes.php">
                                                 <input type="hidden" name="quizID" value="<?= htmlspecialchars($quiz['ID']) ?>">
                                                 <button type="submit" name="deleteQuiz" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this quiz?');">Delete</button>
                                             </form>
@@ -193,7 +193,7 @@
                 <div class="learning-materials-content">
                     <h4>Learning Materials</h4>
                     <!-- Add Learning Material Form -->
-                    <form id="addLearningMaterialForm" action="../admin_php/uploadMaterial.php" method="POST" enctype="multipart/form-data">
+                    <form id="addLearningMaterialForm" action="uploadMaterial.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <input type="text" name="subjectCode" id="subjectCode" class="form-control" placeholder="Subject Code" required>
                         </div>
@@ -234,12 +234,12 @@
                                     <td><?= htmlspecialchars($material['moduleName']) ?></td>
                                     <td><?= htmlspecialchars($material['dateAdded']) ?></td>
                                     <td>
-                                        <a href="../admin_php/downloadMaterial.php?ID=<?= $material['ID'] ?>" class="btn btn-primary btn-sm">
+                                        <a href="downloadMaterial.php?ID=<?= $material['ID'] ?>" class="btn btn-primary btn-sm">
                                             <?= htmlspecialchars($material['fileName']) ?>
                                         </a>
                                     </td>
                                     <td>
-                                        <form method="POST" action="../admin_php/showMaterial.php">
+                                        <form method="POST" action="showMaterial.php">
                                             <input type="hidden" name="materialID" value="<?= htmlspecialchars($material['ID']) ?>">
                                             <button type="submit" name="deleteMaterial" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Material?');">Delete</button>
                                         </form>
@@ -277,7 +277,7 @@
                                     <td><?= htmlspecialchars($user['email']) ?></td>
                                     <td><?= htmlspecialchars($user['lastLoginDate']) ?></td>
                                     <td>
-                                        <form method="POST" action="../admin_php/showUsers.php">
+                                        <form method="POST" action="showUsers.php">
                                             <input type="hidden" name="usersID" value="<?= htmlspecialchars($subject['userID']) ?>">
                                             <button type="submit" name="deleteUsers" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
                                         </form>
@@ -311,7 +311,7 @@
                                 <td><?= htmlspecialchars($admin['name']) ?></td>
                                 <td><?= htmlspecialchars($admin['lastLoginDate']) ?></td>
                                 <td>
-                                    <form method="POST" action="../admin_php/showAdmin.php">
+                                    <form method="POST" action="showAdmin.php">
                                         <input type="hidden" name="adminID" value="<?= htmlspecialchars($admin['id']) ?>">
                                         <button type="submit" name="deleteAdmin" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this admin?');">Delete</button>
                                     </form>
@@ -356,7 +356,7 @@
                                 <td><?= htmlspecialchars($subject['dateAdded']) ?></td>
                                 <td><?= htmlspecialchars($subject['addedBy']) ?></td>
                                 <td>
-                                    <form method="POST" action="../admin_php/showSubjects.php">
+                                    <form method="POST" action="showSubjects.php">
                                         <input type="hidden" name="subjectID" value="<?= htmlspecialchars($subject['ID']) ?>">
                                         <button type="submit" name="deleteSubject" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this subject?');">Delete</button>
                                     </form>

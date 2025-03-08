@@ -3,7 +3,7 @@
         session_start();
     }
     
-    require '../config/connection.php';
+    require 'connection.php';
 
 
     // Handle quiz deletion
@@ -19,7 +19,7 @@
         } else {
             $_SESSION['message'] = "Failed to delete subject.";
         }
-        header("Location: ../admin_files/adminPanel.php");
+        header("Location: adminPanel.php");
         exit();
     }
 

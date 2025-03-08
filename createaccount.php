@@ -1,5 +1,5 @@
 <?php
-    require 'config/connection.php';
+    require 'connection.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {

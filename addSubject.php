@@ -3,7 +3,7 @@
         session_start();
     }
     
-    require '../config/connection.php';
+    require 'connection.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subjectCode = trim($_POST['subjectCode']);
@@ -20,7 +20,7 @@
             $stmt->bindParam(':addedBy', $addedBy);
             if ($stmt->execute()) {
                 // Redirect to a confirmation page or the same page with a success message
-                header("Location: ../admin_files/adminPanel.php?status=success");
+                header("Location: adminPanel.php?status=success");
                 exit();
             } else {
                 // Handle the error if the query fails

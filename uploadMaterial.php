@@ -3,7 +3,7 @@
         session_start();
     }
 
-    require '../config/connection.php';
+    require 'connection.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subjectCode = $_POST['subjectCode'];
@@ -32,7 +32,7 @@
             $stmt->bindParam(6, $downloads, PDO::PARAM_INT);
     
             if ($stmt->execute()) {
-                echo "<script>alert('Learning material uploaded successfully!'); window.location.href='../admin_files/adminPanel.php';</script>";
+                echo "<script>alert('Learning material uploaded successfully!'); window.location.href='adminPanel.php';</script>";
             } else {
                 echo "<script>alert('Error uploading learning material.'); window.history.back();</script>";
             }

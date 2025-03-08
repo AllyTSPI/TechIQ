@@ -3,7 +3,7 @@
         session_start();
     }
     
-    require '../config/connection.php';
+    require 'connection.php';
 
      // Handle quiz deletion
      if (isset($_POST['deleteUsers'])) {
@@ -18,7 +18,7 @@
         } else {
             $_SESSION['message'] = "Failed to delete user.";
         }
-        header("Location: ../admin_files/adminPanel.php");
+        header("Location: adminPanel.php");
         exit();
     }
 

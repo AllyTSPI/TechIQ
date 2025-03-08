@@ -1,6 +1,6 @@
 <?php
     
-    require 'config/connection.php';
+    require 'connection.php';
 
     try {
         // Prepare the SQL query to fetch quiz data
@@ -30,7 +30,7 @@
     <body class="dashboardPage">
     
         <!---navbar-->
-        <?php include 'user_backend/navbar.php';?>
+        <?php include 'navbar.php';?>
         <!---end navbar-->
 
         <!-- Quizzes Section -->

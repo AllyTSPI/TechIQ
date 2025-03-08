@@ -1,8 +1,8 @@
 <?php
     session_start();
     
-    require 'config/connection.php';
-    require 'user_backend/materials.php';
+    require 'connection.php';
+    require 'materials.php';
 ?>
 
 <!doctype html>

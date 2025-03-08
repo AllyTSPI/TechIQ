@@ -2,7 +2,7 @@
     session_start();
 
     // Include the database connection using PDO (make sure this file exists and is correct)
-    require 'config/connection.php';
+    require 'connection.php';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $fullname = trim($_POST['fullname']);

@@ -3,7 +3,7 @@
         session_start();
     }
     
-    require '../config/connection.php';
+    require 'connection.php';
     
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -31,7 +31,7 @@
     
                 // Execute the query
                 if ($stmt->execute()) {
-                    header("Location: ../admin_files/adminPanel.php?status=success");
+                    header("Location: adminPanel.php?status=success");
                     exit();
                 } else {
                     die("Error: Unable to add the quiz.");
