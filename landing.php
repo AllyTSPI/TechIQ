@@ -139,7 +139,7 @@
     </head>
     <body class="dashboardPage">
         <!---navbar-->
-        <?php include 'user_backend/navbar.php';?>
+        <?php include 'navbar.php';?>
         <!---end navbar-->
 
         <!-- Dashboard Section -->
